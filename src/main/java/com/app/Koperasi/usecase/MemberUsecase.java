@@ -5,6 +5,8 @@ import com.app.Koperasi.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberUsecase {
 
@@ -18,5 +20,9 @@ public class MemberUsecase {
     public Member addMember(Member member) {
         memberRepository.save(member);
         return member;
+    }
+
+    public List<Member> getMembers() {
+       return memberRepository.findAll();
     }
 }

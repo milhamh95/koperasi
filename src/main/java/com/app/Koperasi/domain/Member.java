@@ -1,10 +1,9 @@
 package com.app.Koperasi.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
+@Entity
+@Table
 public class Member {
     @Id
     @SequenceGenerator(
@@ -20,6 +19,8 @@ public class Member {
     private Integer id;
     private String name;
     private String address;
+
+    public Member(){}
 
     public Member(Integer id, String name, String address) {
         this.id = id;
