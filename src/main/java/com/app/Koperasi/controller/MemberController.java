@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/members")
@@ -17,13 +18,18 @@ public class MemberController {
         this.memberUsecase = memberUsecase;
     }
 
-    @GetMapping
-    public List<Member> getMembers() {
-        return memberUsecase.getMembers();
-    }
+//    @GetMapping
+//    public List<Member> getMembers() {
+//        return memberUsecase.getMembers();
+//    }
 
     @PostMapping
     public Member addMember(@RequestBody Member member) {
         return memberUsecase.addMember(member);
     }
+
+//    @GetMapping(path = "{memberId}")
+//    public Optional<Member> getMember(@PathVariable("memberId") Long memberId) {
+//        return memberUsecase.getMember(memberId);
+//    }
 }

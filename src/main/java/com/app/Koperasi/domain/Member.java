@@ -5,25 +5,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table
 public class Member {
-    @Id
-    @SequenceGenerator(
-            name = "member_sequqnece",
-            sequenceName = "member_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "member_sequence"
-    )
-    private Integer id;
+    private Long id;
     private String name;
     private String address;
-
-    @CreationTimestamp
     private LocalDateTime createdTime;
 
     public LocalDateTime getCreatedTime() {
@@ -36,7 +21,7 @@ public class Member {
 
     public Member(){}
 
-    public Member(Integer id, String name, String address) {
+    public Member(Long id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -47,11 +32,11 @@ public class Member {
         this.address = address;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
