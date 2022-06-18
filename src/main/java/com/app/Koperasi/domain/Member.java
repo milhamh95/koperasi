@@ -1,9 +1,31 @@
 package com.app.Koperasi.domain;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
 public class Member {
+    @Id
+    @SequenceGenerator(
+            name = "member_sequqnece",
+            sequenceName = "member_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "member_sequence"
+    )
     private Integer id;
     private String name;
     private String address;
+
+    public Member(Integer id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
 
     public Member(String name, String address) {
         this.name = name;
