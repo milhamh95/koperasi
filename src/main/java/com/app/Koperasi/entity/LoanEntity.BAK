@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity(name="load")
+@Entity(name="loan")
 @Table(name="loan")
 @TypeDef(
         name = "pgsql_enum",

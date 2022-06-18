@@ -1,0 +1,77 @@
+package com.app.Koperasi.entity;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity(name="installment")
+@Table(name="installment")
+public class InstallmentEntity {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public InstallmentEntity() {
+    }
+
+    public Long getLoanId() {
+        return loanId;
+    }
+
+    public InstallmentEntity(Long loanId, Integer total, LocalDateTime createdTime) {
+        this.loanId = loanId;
+        this.total = total;
+        this.createdTime = createdTime;
+    }
+
+    public InstallmentEntity(Long id, Long loanId, Integer total, LocalDateTime createdTime) {
+        this.id = id;
+        this.loanId = loanId;
+        this.total = total;
+        this.createdTime = createdTime;
+    }
+
+    public void setLoanId(Long loanId) {
+        this.loanId = loanId;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    @Id
+    @SequenceGenerator(
+            name = "installment_sequence",
+            sequenceName = "installment_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "installment_sequence"
+    )
+
+    private Long id;
+
+    @Column(name="loan_id")
+    private Long loanId;
+
+    private Integer total;
+
+    private LocalDateTime createdTime;
+}
