@@ -9,15 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "member")
 public class MemberEntity {
     @Id
-    @SequenceGenerator(
-            name = "member_sequence",
-            sequenceName = "member_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "member_sequence"
-    )
+    @SequenceGenerator(name = "member_sequence", sequenceName = "member_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sequence")
     private Long id;
     private String name;
     private String address;
