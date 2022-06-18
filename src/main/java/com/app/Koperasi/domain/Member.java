@@ -11,25 +11,19 @@ public class Member {
     private String address;
     private LocalDateTime createdTime;
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
-
     public Member(){}
 
-    public Member(Long id, String name, String address) {
+    public Member(Long id, String name, String address, LocalDateTime createdTime) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.createdTime = createdTime;
     }
 
-    public Member(String name, String address) {
+    public Member(String name, String address, LocalDateTime createdTime) {
         this.name = name;
         this.address = address;
+        this.createdTime = createdTime;
     }
 
     public Long getId() {
@@ -54,5 +48,13 @@ public class Member {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberUsecase {
@@ -34,7 +35,7 @@ public class MemberUsecase {
 
        List <Member> members = new ArrayList<>();
 
-        ModelMapper modelMapper = new ModelMapper();
+       ModelMapper modelMapper = new ModelMapper();
 
        for (int i = 0; i < memberEntities.size(); i++) {
             Member member = modelMapper.map(memberEntities.get(i), Member.class);
@@ -45,8 +46,16 @@ public class MemberUsecase {
 
 
     }
-//
-//    public Optional<Member> getMember(Long memberId) {
-//        return memberRepository.findById(memberId);
-//    }
+
+    public Member getMember(Long memberId) {
+        Optional <MemberEntity> memberEntity = memberRepository.findById(memberId);
+
+        Member member = new Member(
+                memberEntity.get().getId(),
+                memberEntity.get().getName(),
+                memberEntity.get().getAddress(),
+                memberEntity.get().getCreatedTime());
+
+        return member;
+    }
 }

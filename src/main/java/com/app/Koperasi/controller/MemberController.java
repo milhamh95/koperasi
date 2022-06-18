@@ -28,8 +28,8 @@ public class MemberController {
         return memberUsecase.addMember(member);
     }
 
-//    @GetMapping(path = "{memberId}")
-//    public Optional<Member> getMember(@PathVariable("memberId") Long memberId) {
-//        return memberUsecase.getMember(memberId);
-//    }
+    @GetMapping(path = "{memberId}")
+    public Member getMember(@PathVariable("memberId") Long memberId) {
+        return memberUsecase.getMember(memberId);
+    }
 }
