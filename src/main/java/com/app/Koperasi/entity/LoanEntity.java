@@ -8,31 +8,21 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity(name="load")
-@Table(name="loan")
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
+@Entity(name = "load")
+@Table(name = "loan")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class LoanEntity {
     @Id
-    @SequenceGenerator(
-            name = "loan_sequence",
-            sequenceName = "loan_sequence",
-            allocationSize = 1
-    )
+    @SequenceGenerator(name = "loan_sequence", sequenceName = "loan_sequence", allocationSize = 1)
 
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "loan_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loan_sequence")
 
     private Long id;
 
-    @Column(name="transaction_id")
+    @Column(name = "transaction_id")
     private Long transactionId;
 
-    @Column(name="loan_date")
+    @Column(name = "loan_date")
     private LocalDate loanDate;
 
     public Long getId() {
@@ -42,7 +32,8 @@ public class LoanEntity {
     public LoanEntity() {
     }
 
-    public LoanEntity(Long id, Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status, LocalDateTime createdTime) {
+    public LoanEntity(Long id, Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status,
+            LocalDateTime createdTime) {
         this.id = id;
         this.transactionId = transactionId;
         this.loanDate = loanDate;
@@ -51,7 +42,8 @@ public class LoanEntity {
         this.createdTime = createdTime;
     }
 
-    public LoanEntity(Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status, LocalDateTime createdTime) {
+    public LoanEntity(Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status,
+            LocalDateTime createdTime) {
         this.transactionId = transactionId;
         this.loanDate = loanDate;
         this.tenor = tenor;
@@ -107,7 +99,7 @@ public class LoanEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "status")
-    @Type(type = "loan_status" )
+    @Type(type = "pgsql_enum")
     private LoanStatus status;
 
     private LocalDateTime createdTime;

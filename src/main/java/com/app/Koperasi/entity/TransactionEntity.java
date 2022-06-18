@@ -7,31 +7,21 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name="transaction")
-@Table(name="transaction")
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
+@Entity(name = "transaction")
+@Table(name = "transaction")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class TransactionEntity {
     @Id
-    @SequenceGenerator(
-            name = "transaction_sequence",
-            sequenceName = "transaction_sequence",
-            allocationSize = 1
-    )
+    @SequenceGenerator(name = "transaction_sequence", sequenceName = "transaction_sequence", allocationSize = 1)
 
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "transaction_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_sequence")
 
     private Long id;
     private Long memberId;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "type")
-    @Type(type = "transaction_type" )
+    @Type(type = "pgsql_enum")
     private TransactionType type;
 
     private Integer total;
@@ -52,7 +42,6 @@ public class TransactionEntity {
         this.total = total;
         this.createdTime = createdTime;
     }
-
 
     public Long getId() {
         return id;
@@ -93,7 +82,8 @@ public class TransactionEntity {
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
-    public TransactionEntity(){}
 
+    public TransactionEntity() {
+    }
 
 }
