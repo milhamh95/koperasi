@@ -1,6 +1,9 @@
 package com.app.Koperasi.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -19,6 +22,17 @@ public class Member {
     private Integer id;
     private String name;
     private String address;
+
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
 
     public Member(){}
 
