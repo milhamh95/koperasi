@@ -1,12 +1,18 @@
 package com.app.Koperasi.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table
+@Entity(name="transaction")
+@Table(name="transaction")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class TransactionEntity {
     @Id
     @SequenceGenerator(
@@ -22,26 +28,72 @@ public class TransactionEntity {
 
     private Long id;
     private Long memberId;
-    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "type")
+    @Type(type = "transaction_type" )
+    private TransactionType type;
+
     private Integer total;
 
-    @CreationTimestamp
     private LocalDateTime createdTime;
 
-    public TransactionEntity(){}
-
-    public TransactionEntity(Long memberId, String name, Integer total, LocalDateTime createdTime) {
-        this.memberId = memberId;
-        this.name = name;
-        this.total = total;
-        this.createdTime = createdTime;
-    }
-
-    public TransactionEntity(Long id, Long memberId, String name, Integer total, LocalDateTime createdTime) {
+    public TransactionEntity(Long id, Long memberId, TransactionType type, Integer total, LocalDateTime createdTime) {
         this.id = id;
         this.memberId = memberId;
-        this.name = name;
+        this.type = type;
         this.total = total;
         this.createdTime = createdTime;
     }
+
+    public TransactionEntity(Long memberId, TransactionType type, Integer total, LocalDateTime createdTime) {
+        this.memberId = memberId;
+        this.type = type;
+        this.total = total;
+        this.createdTime = createdTime;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+    public TransactionEntity(){}
+
+
 }
