@@ -18,10 +18,10 @@ public class MemberController {
         this.memberUsecase = memberUsecase;
     }
 
-//    @GetMapping
-//    public List<Member> getMembers() {
-//        return memberUsecase.getMembers();
-//    }
+    @GetMapping
+    public List<Member> getMembers() {
+        return memberUsecase.getMembers();
+    }
 
     @PostMapping
     public Member addMember(@RequestBody Member member) {

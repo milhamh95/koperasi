@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table
-public class Transaction {
+public class TransactionEntity {
     @Id
     @SequenceGenerator(
             name = "transaction_sequence",
@@ -28,16 +28,16 @@ public class Transaction {
     @CreationTimestamp
     private LocalDateTime createdTime;
 
-    public Transaction(){}
+    public TransactionEntity(){}
 
-    public Transaction(Long memberId, String name, Integer total, LocalDateTime createdTime) {
+    public TransactionEntity(Long memberId, String name, Integer total, LocalDateTime createdTime) {
         this.memberId = memberId;
         this.name = name;
         this.total = total;
         this.createdTime = createdTime;
     }
 
-    public Transaction(Long id, Long memberId, String name, Integer total, LocalDateTime createdTime) {
+    public TransactionEntity(Long id, Long memberId, String name, Integer total, LocalDateTime createdTime) {
         this.id = id;
         this.memberId = memberId;
         this.name = name;
