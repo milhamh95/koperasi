@@ -4,6 +4,7 @@ import com.app.Koperasi.entity.*;
 import com.app.Koperasi.repository.LoanRepository;
 import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.ApplyLoanRequest;
+import com.app.Koperasi.request.PayInstallmentRequest;
 import com.app.Koperasi.response.ApplyLoanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,10 @@ public class LoanUsecase {
         );
 
         return applyLoanResponse;
+    }
+
+    @Transactional
+    public void PayInstallment(PayInstallmentRequest req) {
+        System.out.println(req);
     }
 }
