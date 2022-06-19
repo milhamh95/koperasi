@@ -31,17 +31,18 @@ public class SavingEntity {
 
     private Integer total;
 
-    private Integer current_saving;
+    @Column(name = "current_saving")
+    private Integer currentSaving;
 
-    @Column(name="created_time")
+    @Column(name = "created_time")
     private LocalDateTime createdTime;
 
-    public SavingEntity(Long memberId, Long transactionId, TransactionType type, Integer total, Integer current_saving, LocalDateTime createdTime) {
+    public SavingEntity(Long memberId, Long transactionId, TransactionType type, Integer total, Integer currentSaving, LocalDateTime createdTime) {
         this.memberId = memberId;
         this.transactionId = transactionId;
         this.type = type;
         this.total = total;
-        this.current_saving = current_saving;
+        this.currentSaving = currentSaving;
         this.createdTime = createdTime;
     }
 
@@ -88,12 +89,12 @@ public class SavingEntity {
         this.total = total;
     }
 
-    public Integer getCurrent_saving() {
-        return current_saving;
+    public Integer getCurrentSaving() {
+        return currentSaving;
     }
 
-    public void setCurrent_saving(Integer current_saving) {
-        this.current_saving = current_saving;
+    public void setCurrentSaving(Integer currentSaving) {
+        this.currentSaving = currentSaving;
     }
 
     public LocalDateTime getCreatedTime() {

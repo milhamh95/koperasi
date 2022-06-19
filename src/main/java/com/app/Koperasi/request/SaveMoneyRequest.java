@@ -2,9 +2,9 @@ package com.app.Koperasi.request;
 
 public class SaveMoneyRequest {
     private Long memberId;
-    private Long total;
+    private Integer total;
 
-    public SaveMoneyRequest(Long memberId, Long total) {
+    public SaveMoneyRequest(Long memberId, Integer total) {
         this.memberId = memberId;
         this.total = total;
     }
@@ -20,11 +20,11 @@ public class SaveMoneyRequest {
         this.memberId = memberId;
     }
 
-    public Long getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 }

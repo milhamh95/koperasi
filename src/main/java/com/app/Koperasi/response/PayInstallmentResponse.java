@@ -12,6 +12,14 @@ public class PayInstallmentResponse {
     public PayInstallmentResponse() {
     }
 
+    private Integer totalInstallment;
+
+    private LocalDateTime payInstallmentDate;
+
+    private Integer loanRemainder;
+
+    private LoanStatus loanStatus;
+
     public PayInstallmentResponse(Long id, Long memberId, Integer totalInstallment, LocalDateTime payInstallmentDate, Integer loanRemainder, LoanStatus loanStatus) {
         this.id = id;
         this.memberId = memberId;
@@ -20,60 +28,4 @@ public class PayInstallmentResponse {
         this.loanRemainder = loanRemainder;
         this.loanStatus = loanStatus;
     }
-
-    private Integer totalInstallment;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public Integer getTotalInstallment() {
-        return totalInstallment;
-    }
-
-    public void setTotalInstallment(Integer totalInstallment) {
-        this.totalInstallment = totalInstallment;
-    }
-
-    public LocalDateTime getPayInstallmentDate() {
-        return payInstallmentDate;
-    }
-
-    public void setPayInstallmentDate(LocalDateTime payInstallmentDate) {
-        this.payInstallmentDate = payInstallmentDate;
-    }
-
-    public Integer getLoanRemainder() {
-        return loanRemainder;
-    }
-
-    public void setLoanRemainder(Integer loanRemainder) {
-        this.loanRemainder = loanRemainder;
-    }
-
-    public LoanStatus getLoanStatus() {
-        return loanStatus;
-    }
-
-    public void setLoanStatus(LoanStatus loanStatus) {
-        this.loanStatus = loanStatus;
-    }
-
-    private LocalDateTime payInstallmentDate;
-
-    private Integer loanRemainder;
-
-    private LoanStatus loanStatus;
 }

@@ -21,7 +21,7 @@ public class LoanController {
     }
 
     @PostMapping(path = "/loans")
-    public ApplyLoanResponse applyLoad(@RequestBody ApplyLoanRequest req) {
+    public ApplyLoanResponse applyLoan(@RequestBody ApplyLoanRequest req) {
         ApplyLoanResponse applyLoanResponse = loanUsecase.applyLoan(req);
         return applyLoanResponse;
     }
