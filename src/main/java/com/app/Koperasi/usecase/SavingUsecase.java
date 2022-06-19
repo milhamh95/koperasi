@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SavingUsecase {
@@ -48,12 +49,20 @@ public class SavingUsecase {
 
         TransactionEntity resTrxEntity = transactionRepository.save(trxEntity);
 
+        List<SavingEntity> currentSavingEntity = savingRepository.findLatestSaving(req.getMemberId());
+
+        Integer currentSaving = req.getTotal();
+        if (currentSavingEntity.size() > 0) {
+            Integer latestCurrentSaving = currentSavingEntity.get(0).getCurrentSaving();
+            currentSaving += latestCurrentSaving;
+        }
+
         SavingEntity savingEntity = new SavingEntity(
                 req.getMemberId(),
                 resTrxEntity.getId(),
                 TransactionType.SAVE,
                 req.getTotal(),
-                0,
+                currentSaving,
                 createdTime
         );
 
@@ -63,7 +72,7 @@ public class SavingUsecase {
                 resSavingEntity.getId(),
                 resSavingEntity.getMemberId(),
                 resSavingEntity.getTotal(),
-                resSavingEntity.getCurrentSaving(),
+                currentSaving,
                 createdTime
         );
     }
