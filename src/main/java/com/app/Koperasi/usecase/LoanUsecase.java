@@ -35,9 +35,21 @@ public class LoanUsecase {
 
     public void validateLoan(ApplyLoanRequest req) {
         LocalDate currentDate = LocalDate.now();
-        if (req.getLoanDate().isAfter(currentDate)) {
+        if (req.getLoanDate().isBefore(currentDate)) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "loan date should not be after today"
+                    HttpStatus.BAD_REQUEST, "loan date should not be before today"
+            );
+        }
+
+        if (req.getTenor().isBefore(currentDate)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "tenor should not be before today"
+            );
+        }
+
+        if (req.getTenor().isBefore(req.getLoanDate())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "tenor should not be before loan date"
             );
         }
 
