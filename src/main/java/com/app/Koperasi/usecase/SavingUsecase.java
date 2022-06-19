@@ -4,20 +4,25 @@ import com.app.Koperasi.entity.SavingEntity;
 import com.app.Koperasi.entity.TransactionEntity;
 import com.app.Koperasi.entity.TransactionType;
 import com.app.Koperasi.repository.SavingRepository;
+import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.SaveMoneyRequest;
 import com.app.Koperasi.response.SaveMoneyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
+@Service
 public class SavingUsecase {
+    private final TransactionRepository transactionRepository;
 
     private final SavingRepository savingRepository;
 
     @Autowired
-    public SavingUsecase(SavingRepository savingRepository) {
+    public SavingUsecase(TransactionRepository transactionRepository, SavingRepository savingRepository) {
+        this.transactionRepository = transactionRepository;
         this.savingRepository = savingRepository;
     }
 
@@ -41,9 +46,11 @@ public class SavingUsecase {
                 createdTime
         );
 
+        TransactionEntity resTrxEntity = transactionRepository.save(trxEntity);
+
         SavingEntity savingEntity = new SavingEntity(
-                trxEntity.getId(),
                 req.getMemberId(),
+                resTrxEntity.getId(),
                 TransactionType.SAVE,
                 req.getTotal(),
                 0,

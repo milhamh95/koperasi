@@ -20,4 +20,24 @@ public class SaveMoneyResponse {
         this.currentSaving = currentSaving;
         this.createdTime = createdTime;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public Integer getCurrentSaving() {
+        return currentSaving;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
 }

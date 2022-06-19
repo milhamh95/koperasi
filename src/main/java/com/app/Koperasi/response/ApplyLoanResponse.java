@@ -32,4 +32,32 @@ public class ApplyLoanResponse {
         this.status = status;
         this.createdTime = createdTime;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public LocalDate getLoanDate() {
+        return loanDate;
+    }
+
+    public LocalDate getTenor() {
+        return tenor;
+    }
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
 }

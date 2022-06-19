@@ -28,4 +28,28 @@ public class PayInstallmentResponse {
         this.loanRemainder = loanRemainder;
         this.loanStatus = loanStatus;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Integer getTotalInstallment() {
+        return totalInstallment;
+    }
+
+    public LocalDateTime getPayInstallmentDate() {
+        return payInstallmentDate;
+    }
+
+    public Integer getLoanRemainder() {
+        return loanRemainder;
+    }
+
+    public LoanStatus getLoanStatus() {
+        return loanStatus;
+    }
 }
