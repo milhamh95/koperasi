@@ -95,7 +95,7 @@ public class SavingUsecase {
 
         if (currentSavingEntity.size() == 0) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "there is no saving in your account"
+                    HttpStatus.BAD_REQUEST, "your saving is 0"
             );
         }
 
