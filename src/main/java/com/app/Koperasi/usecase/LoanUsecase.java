@@ -7,6 +7,7 @@ import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.ApplyLoanRequest;
 import com.app.Koperasi.request.PayInstallmentRequest;
 import com.app.Koperasi.response.ApplyLoanResponse;
+import com.app.Koperasi.response.PayInstallmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -69,13 +70,19 @@ public class LoanUsecase {
     }
 
     @Transactional
-    public void PayInstallment(PayInstallmentRequest req, Long loanId) {
+    public PayInstallmentResponse PayInstallment(PayInstallmentRequest req, Long loanId) {
         LocalDateTime createdTime = LocalDateTime.now();
 
         LoanEntity loanEntity = loanRepository.findById(loanId).
                 orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "loan is not found"
         ));
+
+        if (loanEntity.getStatus() == LoanStatus.PAID) {
+            throw new ResponseStatusException(
+                    HttpStatus.OK, "loan is paid"
+            );
+        }
 
         TransactionEntity trxEntity = new TransactionEntity(
                 loanEntity.getMemberId(),
@@ -109,6 +116,17 @@ public class LoanUsecase {
         if (loanRemainder == 0) {
             loanEntity.setStatus(LoanStatus.PAID);
         }
+
+        PayInstallmentResponse payInstallmentResponse = new PayInstallmentResponse(
+            installmentEntity.getId(),
+                loanEntity.getMemberId(),
+                installmentEntity.getTotal(),
+                installmentEntity.getCreatedTime(),
+                installmentEntity.getLoanRemainder(),
+                loanEntity.getStatus()
+        );
+
+        return payInstallmentResponse;
     }
 
 }
