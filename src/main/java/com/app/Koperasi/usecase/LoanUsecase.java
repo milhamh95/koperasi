@@ -1,6 +1,7 @@
 package com.app.Koperasi.usecase;
 
 import com.app.Koperasi.entity.*;
+import com.app.Koperasi.repository.InstallmentRepository;
 import com.app.Koperasi.repository.LoanRepository;
 import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.ApplyLoanRequest;
@@ -18,10 +19,13 @@ public class LoanUsecase {
     private final TransactionRepository transactionRepository;
     private final LoanRepository loanRepository;
 
+    private final InstallmentRepository installmentRepository;
+
     @Autowired
-    public LoanUsecase(TransactionRepository transactionRepository, LoanRepository loanRepository) {
+    public LoanUsecase(TransactionRepository transactionRepository, LoanRepository loanRepository, InstallmentRepository installmentRepository) {
         this.transactionRepository = transactionRepository;
         this.loanRepository = loanRepository;
+        this.installmentRepository = installmentRepository;
     }
 
     @Transactional
