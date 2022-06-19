@@ -1,7 +1,6 @@
 package com.app.Koperasi.entity;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -27,20 +26,25 @@ public class TransactionEntity {
 
     private Integer total;
 
-    @CreationTimestamp
+    @Column(name = "created_time")
     private LocalDateTime createdTime;
 
-    public TransactionEntity(Long memberId, TransactionType type, Integer total) {
-        this.memberId = memberId;
-        this.type = type;
-        this.total = total;
+    public TransactionEntity() {
     }
 
-    public TransactionEntity(Long id, Long memberId, TransactionType type, Integer total) {
+    public TransactionEntity(Long id, Long memberId, TransactionType type, Integer total, LocalDateTime createdTime) {
         this.id = id;
         this.memberId = memberId;
         this.type = type;
         this.total = total;
+        this.createdTime = createdTime;
+    }
+
+    public TransactionEntity(Long memberId, TransactionType type, Integer total, LocalDateTime createdTime) {
+        this.memberId = memberId;
+        this.type = type;
+        this.total = total;
+        this.createdTime = createdTime;
     }
 
     public Long getId() {
@@ -82,8 +86,4 @@ public class TransactionEntity {
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
-
-    public TransactionEntity() {
-    }
-
 }

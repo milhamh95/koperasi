@@ -16,6 +16,7 @@ public class MemberEntity {
     private String address;
 
     @CreationTimestamp
+    @Column(name= "created_time")
     private LocalDateTime createdTime;
 
     public MemberEntity() {

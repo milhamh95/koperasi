@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -33,10 +34,13 @@ public class LoanUsecase {
 
     @Transactional
     public ApplyLoanResponse applyLoan(ApplyLoanRequest req) {
+        LocalDateTime createdTime = LocalDateTime.now();
+
         TransactionEntity trxEntity = new TransactionEntity(
                 req.getMemberId(),
                 TransactionType.LOAN,
-                req.getTotal()
+                req.getTotal(),
+                createdTime
         );
 
         TransactionEntity resTrxEntity = transactionRepository.save(trxEntity);
@@ -47,7 +51,8 @@ public class LoanUsecase {
                 req.getTotal(),
                 req.getLoanDate(),
                 req.getTenor(),
-                LoanStatus.NOT_PAID
+                LoanStatus.NOT_PAID,
+                createdTime
         );
 
         LoanEntity resLoanEntity = loanRepository.save(loanEntity);
@@ -59,21 +64,30 @@ public class LoanUsecase {
                 resLoanEntity.getLoanDate(),
                 resLoanEntity.getTenor(),
                 resLoanEntity.getStatus(),
-                resLoanEntity.getCreatedTime()
+                createdTime
         );
     }
 
     @Transactional
     public PayInstallmentResponse PayInstallment(PayInstallmentRequest req, Long loanId) {
+        LocalDateTime createdTime = LocalDateTime.now();
+
         LoanEntity loanEntity = loanRepository.findById(loanId).
                 orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "loan is not found"
         ));
 
+        if (req.getTotal() > loanEntity.getTotal()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "total installment should less than equal with loan"
+            );
+        }
+
         TransactionEntity trxEntity = new TransactionEntity(
                 loanEntity.getMemberId(),
                 TransactionType.INSTALLMENT,
-                req.getTotal()
+                req.getTotal(),
+                createdTime
         );
         transactionRepository.save(trxEntity);
 
@@ -92,7 +106,8 @@ public class LoanUsecase {
         InstallmentEntity installmentEntity = new InstallmentEntity(
                 loanId,
                 req.getTotal(),
-                loanRemainder
+                loanRemainder,
+                createdTime
         );
 
         installmentRepository.save(installmentEntity);
@@ -105,7 +120,7 @@ public class LoanUsecase {
                 installmentEntity.getId(),
                 loanEntity.getMemberId(),
                 installmentEntity.getTotal(),
-                installmentEntity.getCreatedTime(),
+                createdTime,
                 installmentEntity.getLoanRemainder(),
                 loanEntity.getStatus()
         );

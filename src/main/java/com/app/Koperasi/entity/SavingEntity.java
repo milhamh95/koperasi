@@ -1,7 +1,6 @@
 package com.app.Koperasi.entity;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -34,7 +33,7 @@ public class SavingEntity {
 
     private Integer current_saving;
 
-    @CreationTimestamp
+    @Column(name="created_time")
     private LocalDateTime createdTime;
 
     public SavingEntity(Long memberId, Long transactionId, TransactionType type, Integer total, Integer current_saving, LocalDateTime createdTime) {

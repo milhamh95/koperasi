@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +24,11 @@ public class MemberUsecase {
     }
 
     public Member addMember(Member member) {
+        LocalDateTime createdTime = LocalDateTime.now();
         MemberEntity memberEntity = new MemberEntity(
                 member.getName(),
-                member.getAddress()
+                member.getAddress(),
+                createdTime
         );
         memberRepository.save(memberEntity);
         return member;

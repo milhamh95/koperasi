@@ -14,12 +14,24 @@ public class ApplyLoanResponse {
 
     private LocalDate loanDate;
 
-    public ApplyLoanResponse() {
-    }
-
     private LocalDate tenor;
 
     private LoanStatus status;
+
+    private LocalDateTime createdTime;
+
+    public ApplyLoanResponse() {
+    }
+
+    public ApplyLoanResponse(Long id, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
+        this.id = id;
+        this.memberId = memberId;
+        this.total = total;
+        this.loanDate = loanDate;
+        this.tenor = tenor;
+        this.status = status;
+        this.createdTime = createdTime;
+    }
 
     public Long getId() {
         return id;
@@ -77,15 +89,4 @@ public class ApplyLoanResponse {
         this.createdTime = createdTime;
     }
 
-    public ApplyLoanResponse(Long id, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
-        this.id = id;
-        this.memberId = memberId;
-        this.total = total;
-        this.loanDate = loanDate;
-        this.tenor = tenor;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
-
-    private LocalDateTime createdTime;
 }

@@ -1,7 +1,5 @@
 package com.app.Koperasi.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -20,31 +18,22 @@ public class InstallmentEntity {
 
     private Integer total;
 
-    @Override
-    public String toString() {
-        return "InstallmentEntity{" +
-                "id=" + id +
-                ", loanId=" + loanId +
-                ", total=" + total +
-                ", loanRemainder=" + loanRemainder +
-                ", createdTime=" + createdTime +
-                '}';
-    }
-
     public InstallmentEntity() {
     }
 
-    public InstallmentEntity(Long id, Long loanId, Integer total, Integer loanRemainder) {
+    public InstallmentEntity(Long loanId, Integer total, Integer loanRemainder, LocalDateTime createdTime) {
+        this.loanId = loanId;
+        this.total = total;
+        this.loanRemainder = loanRemainder;
+        this.createdTime = createdTime;
+    }
+
+    public InstallmentEntity(Long id, Long loanId, Integer total, Integer loanRemainder, LocalDateTime createdTime) {
         this.id = id;
         this.loanId = loanId;
         this.total = total;
         this.loanRemainder = loanRemainder;
-    }
-
-    public InstallmentEntity(Long loanId, Integer total, Integer loanRemainder) {
-        this.loanId = loanId;
-        this.total = total;
-        this.loanRemainder = loanRemainder;
+        this.createdTime = createdTime;
     }
 
     public Long getId() {
@@ -90,7 +79,6 @@ public class InstallmentEntity {
     @Column(name = "loan_remainder")
     private Integer loanRemainder;
 
-    @CreationTimestamp
+    @Column(name = "created_time")
     private LocalDateTime createdTime;
-
 }
