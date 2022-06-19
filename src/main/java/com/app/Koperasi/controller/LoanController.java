@@ -32,6 +32,7 @@ public class LoanController {
                     HttpStatus.OK, "tenor can't be before loan date"
             );
         }
+
         ApplyLoanResponse applyLoanResponse = loanUsecase.applyLoan(req);
         return applyLoanResponse;
     }

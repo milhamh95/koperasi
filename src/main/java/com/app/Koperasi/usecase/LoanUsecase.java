@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class LoanUsecase {
@@ -67,7 +67,6 @@ public class LoanUsecase {
                 createdTime
         );
     }
-
     @Transactional
     public PayInstallmentResponse PayInstallment(PayInstallmentRequest req, Long loanId) {
         LocalDateTime createdTime = LocalDateTime.now();
@@ -76,6 +75,24 @@ public class LoanUsecase {
                 orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "loan is not found"
         ));
+
+        if (loanEntity.getStatus() == LoanStatus.PAID) {
+            throw new ResponseStatusException(
+                    HttpStatus.OK, "loan is already paid"
+            );
+        }
+
+        if (req.getInstallmentDate().isBefore(loanEntity.getLoanDate())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "installment should be after loan date"
+            );
+        }
+
+        if (req.getInstallmentDate().isAfter(loanEntity.getTenor())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "installment should not be after tenor"
+            );
+        }
 
         if (req.getTotal() > loanEntity.getTotal()) {
             throw new ResponseStatusException(
@@ -91,18 +108,23 @@ public class LoanUsecase {
         );
         transactionRepository.save(trxEntity);
 
-        Optional<InstallmentEntity> latestUserInstallment = installmentRepository.findTopByLoanId(loanId);
-
         Integer currentLoanRemainder = loanEntity.getTotal();
-        if (latestUserInstallment.isPresent() &&
-                latestUserInstallment.get().getLoanRemainder() < loanEntity.getTotal()){
-            currentLoanRemainder = latestUserInstallment.get().getLoanRemainder();
+
+        List<InstallmentEntity> latestUserInstallment = installmentRepository.findLatestInstallment(loanId);
+
+        if (latestUserInstallment.size() > 0 ) {
+            Integer userInstallmentRemainder = latestUserInstallment.get(0).getLoanRemainder();
+            if (req.getTotal() > userInstallmentRemainder) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "total installment should less than equal with loan remainder"
+                );
+            }
+
+            currentLoanRemainder = userInstallmentRemainder;
         }
+
 
         Integer loanRemainder = currentLoanRemainder - req.getTotal();
-        if (loanRemainder < 0) {
-            loanRemainder = 0;
-        }
         InstallmentEntity installmentEntity = new InstallmentEntity(
                 loanId,
                 req.getTotal(),
@@ -110,7 +132,12 @@ public class LoanUsecase {
                 createdTime
         );
 
-        installmentRepository.save(installmentEntity);
+        installmentRepository.save(new InstallmentEntity(
+                loanId,
+                req.getTotal(),
+                loanRemainder,
+                createdTime
+        ));
 
         if (loanRemainder == 0) {
             loanEntity.setStatus(LoanStatus.PAID);
