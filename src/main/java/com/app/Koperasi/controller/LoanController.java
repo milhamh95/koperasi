@@ -5,10 +5,7 @@ import com.app.Koperasi.request.PayInstallmentRequest;
 import com.app.Koperasi.response.ApplyLoanResponse;
 import com.app.Koperasi.usecase.LoanUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoanController {
@@ -27,8 +24,10 @@ public class LoanController {
     }
 
     @PostMapping(path = "/loans/{loanId}/installment")
-    public PayInstallmentRequest payInstallment(@RequestBody PayInstallmentRequest req) {
-        loanUsecase.PayInstallment(req);
+    public PayInstallmentRequest payInstallment(
+            @PathVariable("loanId") Long loanId,
+            @RequestBody PayInstallmentRequest req) {
+        loanUsecase.PayInstallment(req, loanId);
         return req;
     }
 }

@@ -62,7 +62,43 @@ public class LoanUsecase {
     }
 
     @Transactional
-    public void PayInstallment(PayInstallmentRequest req) {
-        System.out.println(req);
+    public void PayInstallment(PayInstallmentRequest req, Long loanId) {
+//        LocalDateTime createdTime = LocalDateTime.now();
+//
+//        Optional<InstallmentEntity> latestUserInstallment = installmentRepository.findLatestInstallment(loanId);
+//
+//        Optional<LoanEntity> loanEntity = loanRepository.findById(loanId);
+////        if (loanEntity.get().getStatus() == LoanStatus.PAID) {
+////            throw new Exception("loan is already paid");
+////        }
+//
+//        TransactionEntity trxEntity = new TransactionEntity(
+//                req.getMemberId(),
+//                TransactionType.INSTALLMENT,
+//                req.getTotal(),
+//                createdTime
+//        );
+//
+//        transactionRepository.save(trxEntity);
+//
+//        Integer currentLoanRemainder = loanEntity.get().getTotal();
+//        if (latestUserInstallment.get().getLoan_remainder() != loanEntity.get().getTotal()) {
+//            currentLoanRemainder = latestUserInstallment.get().getLoan_remainder();
+//        }
+//
+//        Integer loanRemainder = currentLoanRemainder - req.getTotal();
+//        if (loanRemainder < 0) {
+//            loanRemainder = 0;
+//        }
+//        InstallmentEntity installmentEntity = new InstallmentEntity(
+//                loanId,
+//                req.getTotal(),
+//                loanRemainder,
+//                createdTime
+//        );
+//
+////        InstallmentEntity resInstallmentEntity = installmentRepository.save(installmentEntity);
+//        installmentRepository.save(installmentEntity);
     }
+
 }
