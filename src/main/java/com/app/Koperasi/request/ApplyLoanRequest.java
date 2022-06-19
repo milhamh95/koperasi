@@ -3,7 +3,7 @@ package com.app.Koperasi.request;
 import java.time.LocalDate;
 
 public class ApplyLoanRequest {
-    private Integer memberId;
+    private Long memberId;
 
     private Integer total;
 
@@ -11,11 +11,11 @@ public class ApplyLoanRequest {
 
     private LocalDate tenor;
 
-    public Integer getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Integer memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 
@@ -43,7 +43,7 @@ public class ApplyLoanRequest {
         this.tenor = tenor;
     }
 
-    public ApplyLoanRequest(Integer memberId, Integer total, LocalDate loanDate, LocalDate tenor) {
+    public ApplyLoanRequest(Long memberId, Integer total, LocalDate loanDate, LocalDate tenor) {
         this.memberId = memberId;
         this.total = total;
         this.loanDate = loanDate;

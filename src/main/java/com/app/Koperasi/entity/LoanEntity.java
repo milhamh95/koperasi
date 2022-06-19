@@ -13,17 +13,28 @@ import java.time.LocalDateTime;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class LoanEntity {
     @Id
-    @SequenceGenerator(name = "loan_sequence", sequenceName = "loan_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "loan_seq", sequenceName = "loan_seq", allocationSize = 1)
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loan_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loan_seq")
 
     private Long id;
 
     @Column(name = "transaction_id")
     private Long transactionId;
 
+    private Integer total;
+
     @Column(name = "loan_date")
     private LocalDate loanDate;
+
+    private LocalDate tenor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "loan_status")
+    @Type(type = "pgsql_enum")
+    private LoanStatus status;
+
+    private LocalDateTime createdTime;
 
     public Long getId() {
         return id;
@@ -32,23 +43,31 @@ public class LoanEntity {
     public LoanEntity() {
     }
 
-    public LoanEntity(Long id, Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status,
-            LocalDateTime createdTime) {
-        this.id = id;
+    public LoanEntity(Long transactionId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
         this.transactionId = transactionId;
+        this.total = total;
         this.loanDate = loanDate;
         this.tenor = tenor;
         this.status = status;
         this.createdTime = createdTime;
     }
 
-    public LoanEntity(Long transactionId, LocalDate loanDate, Long tenor, LoanStatus status,
-            LocalDateTime createdTime) {
+    public LoanEntity(Long id, Long transactionId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
+        this.id = id;
         this.transactionId = transactionId;
+        this.total = total;
         this.loanDate = loanDate;
         this.tenor = tenor;
         this.status = status;
         this.createdTime = createdTime;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public void setId(Long id) {
@@ -71,11 +90,11 @@ public class LoanEntity {
         this.loanDate = loanDate;
     }
 
-    public Long getTenor() {
+    public LocalDate getTenor() {
         return tenor;
     }
 
-    public void setTenor(Long tenor) {
+    public void setTenor(LocalDate tenor) {
         this.tenor = tenor;
     }
 
@@ -94,13 +113,4 @@ public class LoanEntity {
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
-
-    private Long tenor;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "status")
-    @Type(type = "pgsql_enum")
-    private LoanStatus status;
-
-    private LocalDateTime createdTime;
 }

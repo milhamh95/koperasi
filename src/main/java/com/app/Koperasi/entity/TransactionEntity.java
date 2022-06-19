@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class TransactionEntity {
     @Id
-    @SequenceGenerator(name = "transaction_sequence", sequenceName = "transaction_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "transaction_seq", sequenceName = "transaction_seq", allocationSize = 1)
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
 
     private Long id;
     private Long memberId;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "type")
+    @Column(columnDefinition = "transaction_type")
     @Type(type = "pgsql_enum")
     private TransactionType type;
 
