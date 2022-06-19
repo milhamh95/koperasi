@@ -6,7 +6,9 @@ import com.app.Koperasi.entity.TransactionType;
 import com.app.Koperasi.repository.SavingRepository;
 import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.SaveMoneyRequest;
+import com.app.Koperasi.request.WithdrawMoneyRequest;
 import com.app.Koperasi.response.SaveMoneyResponse;
+import com.app.Koperasi.response.WithdrawMoneyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,54 @@ public class SavingUsecase {
         SavingEntity resSavingEntity = savingRepository.save(savingEntity);
 
         return new SaveMoneyResponse(
+                resSavingEntity.getId(),
+                resSavingEntity.getMemberId(),
+                resSavingEntity.getTotal(),
+                currentSaving,
+                createdTime
+        );
+    }
+
+    public WithdrawMoneyResponse withdrawMoney(WithdrawMoneyRequest req, Long memberId) {
+        LocalDateTime createdTime = LocalDateTime.now();
+
+        TransactionEntity trxEntity = new TransactionEntity(
+                memberId,
+                TransactionType.WITHDRAW,
+                req.getTotal(),
+                createdTime
+        );
+
+        TransactionEntity resTrxEntity = transactionRepository.save(trxEntity);
+
+        List<SavingEntity> currentSavingEntity = savingRepository.findLatestSaving(memberId);
+
+        if (currentSavingEntity.size() == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "there is no saving in your account"
+            );
+        }
+
+        Integer currentSaving = currentSavingEntity.get(0).getCurrentSaving();
+        if (req.getTotal() > currentSaving) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "your saving is not enough"
+            );
+        }
+        currentSaving = currentSaving - req.getTotal();
+
+        SavingEntity savingEntity = new SavingEntity(
+                memberId,
+                resTrxEntity.getId(),
+                TransactionType.WITHDRAW,
+                req.getTotal(),
+                currentSaving,
+                createdTime
+        );
+
+        SavingEntity resSavingEntity = savingRepository.save(savingEntity);
+
+        return new WithdrawMoneyResponse(
                 resSavingEntity.getId(),
                 resSavingEntity.getMemberId(),
                 resSavingEntity.getTotal(),

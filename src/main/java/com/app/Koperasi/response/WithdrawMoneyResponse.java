@@ -2,8 +2,8 @@ package com.app.Koperasi.response;
 
 import java.time.LocalDateTime;
 
-public class SaveMoneyResponse {
-    private Long id;
+public class WithdrawMoneyResponse {
+    public Long id;
 
     private Long memberId;
 
@@ -13,7 +13,7 @@ public class SaveMoneyResponse {
 
     private LocalDateTime createdTime;
 
-    public SaveMoneyResponse(Long id, Long memberId, Integer total, Integer currentSaving, LocalDateTime createdTime) {
+    public WithdrawMoneyResponse(Long id, Long memberId, Integer total, Integer currentSaving, LocalDateTime createdTime) {
         this.id = id;
         this.memberId = memberId;
         this.total = total;

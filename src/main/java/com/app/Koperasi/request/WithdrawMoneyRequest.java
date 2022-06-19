@@ -7,6 +7,9 @@ public class WithdrawMoneyRequest {
         this.total = total;
     }
 
+    public WithdrawMoneyRequest() {
+    }
+
     public Integer getTotal() {
         return total;
     }
