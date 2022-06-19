@@ -1,6 +1,7 @@
 package com.app.Koperasi.controller;
 
 import com.app.Koperasi.request.SaveMoneyRequest;
+import com.app.Koperasi.request.WithdrawMoneyRequest;
 import com.app.Koperasi.response.SaveMoneyResponse;
 import com.app.Koperasi.usecase.SavingUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class SavingController {
     @PostMapping(path = "/saving")
     public SaveMoneyResponse saveMoney(@RequestBody SaveMoneyRequest req) {
         return savingUsecase.saveMoney(req);
+    }
+
+    @PostMapping(path = "/saving/{memberId}/withdraw")
+    public WithdrawMoneyRequest withdrawMoney(@RequestBody WithdrawMoneyRequest req) {
+        return req;
     }
 }
