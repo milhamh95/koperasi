@@ -22,6 +22,9 @@ public class LoanEntity {
     @Column(name = "transaction_id")
     private Long transactionId;
 
+    @Column(name = "member_id")
+    private Long memberId;
+
     private Integer total;
 
     @Column(name = "loan_date")
@@ -40,36 +43,6 @@ public class LoanEntity {
         return id;
     }
 
-    public LoanEntity() {
-    }
-
-    public LoanEntity(Long transactionId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
-        this.transactionId = transactionId;
-        this.total = total;
-        this.loanDate = loanDate;
-        this.tenor = tenor;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
-
-    public LoanEntity(Long id, Long transactionId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
-        this.id = id;
-        this.transactionId = transactionId;
-        this.total = total;
-        this.loanDate = loanDate;
-        this.tenor = tenor;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -80,6 +53,22 @@ public class LoanEntity {
 
     public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public LocalDate getLoanDate() {
@@ -110,7 +99,31 @@ public class LoanEntity {
         return createdTime;
     }
 
+    public LoanEntity(Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
+        this.transactionId = transactionId;
+        this.memberId = memberId;
+        this.total = total;
+        this.loanDate = loanDate;
+        this.tenor = tenor;
+        this.status = status;
+        this.createdTime = createdTime;
+    }
+
     public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public LoanEntity() {
+    }
+
+    public LoanEntity(Long id, Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
+        this.id = id;
+        this.transactionId = transactionId;
+        this.memberId = memberId;
+        this.total = total;
+        this.loanDate = loanDate;
+        this.tenor = tenor;
+        this.status = status;
         this.createdTime = createdTime;
     }
 }

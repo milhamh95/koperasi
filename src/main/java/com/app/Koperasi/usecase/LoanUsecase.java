@@ -1,12 +1,10 @@
 package com.app.Koperasi.usecase;
 
-import com.app.Koperasi.entity.LoanEntity;
-import com.app.Koperasi.entity.LoanStatus;
-import com.app.Koperasi.entity.TransactionEntity;
-import com.app.Koperasi.entity.TransactionType;
+import com.app.Koperasi.entity.*;
 import com.app.Koperasi.repository.LoanRepository;
 import com.app.Koperasi.repository.TransactionRepository;
 import com.app.Koperasi.request.ApplyLoanRequest;
+import com.app.Koperasi.response.ApplyLoanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,7 @@ public class LoanUsecase {
     }
 
     @Transactional
-    public void applyLoan(ApplyLoanRequest req) {
+    public ApplyLoanResponse applyLoan(ApplyLoanRequest req) {
         LocalDateTime createdTime = LocalDateTime.now();
         TransactionEntity trxEntity = new TransactionEntity(
                 req.getMemberId(),
@@ -39,6 +37,7 @@ public class LoanUsecase {
 
         LoanEntity loanEntity = new LoanEntity(
             resTrxEntity.getId(),
+                req.getMemberId(),
                 req.getTotal(),
                 req.getLoanDate(),
                 req.getTenor(),
@@ -47,13 +46,17 @@ public class LoanUsecase {
         );
 
         LoanEntity resLoanEntity = loanRepository.save(loanEntity);
-        System.out.println("======== req =========");
-        System.out.println(req);
 
-        System.out.println("======== resTrxEntity =========");
-        System.out.println(resTrxEntity);
+        ApplyLoanResponse applyLoanResponse = new ApplyLoanResponse(
+                resLoanEntity.getId(),
+                resLoanEntity.getMemberId(),
+                resLoanEntity.getTotal(),
+                resLoanEntity.getLoanDate(),
+                resLoanEntity.getTenor(),
+                resLoanEntity.getStatus(),
+                resLoanEntity.getCreatedTime()
+        );
 
-        System.out.println("======== loanEntity =========");
-        System.out.println(loanEntity);
+        return applyLoanResponse;
     }
 }

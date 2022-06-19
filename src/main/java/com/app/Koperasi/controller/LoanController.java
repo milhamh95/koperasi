@@ -1,6 +1,7 @@
 package com.app.Koperasi.controller;
 
 import com.app.Koperasi.request.ApplyLoanRequest;
+import com.app.Koperasi.response.ApplyLoanResponse;
 import com.app.Koperasi.usecase.LoanUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,8 @@ public class LoanController {
     }
 
     @PostMapping
-    public ApplyLoanRequest applyLoad(@RequestBody ApplyLoanRequest req) {
-        loanUsecase.applyLoan(req);
-        return req;
+    public ApplyLoanResponse applyLoad(@RequestBody ApplyLoanRequest req) {
+        ApplyLoanResponse applyLoanResponse = loanUsecase.applyLoan(req);
+        return applyLoanResponse;
     }
 }
