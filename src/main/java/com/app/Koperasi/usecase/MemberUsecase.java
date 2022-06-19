@@ -5,11 +5,12 @@ import com.app.Koperasi.entity.MemberEntity;
 import com.app.Koperasi.repository.MemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberUsecase {
@@ -48,14 +49,14 @@ public class MemberUsecase {
     }
 
     public Member getMember(Long memberId) {
-        Optional <MemberEntity> memberEntity = memberRepository.findById(memberId);
+        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "member is not found")
+        );
 
-        Member member = new Member(
-                memberEntity.get().getId(),
-                memberEntity.get().getName(),
-                memberEntity.get().getAddress(),
-                memberEntity.get().getCreatedTime());
-
-        return member;
+        return new Member(
+                memberEntity.getId(),
+                memberEntity.getName(),
+                memberEntity.getAddress(),
+                memberEntity.getCreatedTime());
     }
 }

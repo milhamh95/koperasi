@@ -1,6 +1,7 @@
 package com.app.Koperasi.entity;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -37,6 +38,7 @@ public class LoanEntity {
     @Type(type = "pgsql_enum")
     private LoanStatus status;
 
+    @CreationTimestamp
     private LocalDateTime createdTime;
 
     public Long getId() {
@@ -99,16 +101,6 @@ public class LoanEntity {
         return createdTime;
     }
 
-    public LoanEntity(Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
-        this.transactionId = transactionId;
-        this.memberId = memberId;
-        this.total = total;
-        this.loanDate = loanDate;
-        this.tenor = tenor;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
-
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
@@ -116,7 +108,16 @@ public class LoanEntity {
     public LoanEntity() {
     }
 
-    public LoanEntity(Long id, Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
+    public LoanEntity(Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status) {
+        this.transactionId = transactionId;
+        this.memberId = memberId;
+        this.total = total;
+        this.loanDate = loanDate;
+        this.tenor = tenor;
+        this.status = status;
+    }
+
+    public LoanEntity(Long id, Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status) {
         this.id = id;
         this.transactionId = transactionId;
         this.memberId = memberId;
@@ -124,6 +125,5 @@ public class LoanEntity {
         this.loanDate = loanDate;
         this.tenor = tenor;
         this.status = status;
-        this.createdTime = createdTime;
     }
 }

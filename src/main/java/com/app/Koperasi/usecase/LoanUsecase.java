@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -34,12 +33,10 @@ public class LoanUsecase {
 
     @Transactional
     public ApplyLoanResponse applyLoan(ApplyLoanRequest req) {
-        LocalDateTime createdTime = LocalDateTime.now();
         TransactionEntity trxEntity = new TransactionEntity(
                 req.getMemberId(),
                 TransactionType.LOAN,
-                req.getTotal(),
-                createdTime
+                req.getTotal()
         );
 
         TransactionEntity resTrxEntity = transactionRepository.save(trxEntity);
@@ -50,13 +47,12 @@ public class LoanUsecase {
                 req.getTotal(),
                 req.getLoanDate(),
                 req.getTenor(),
-                LoanStatus.NOT_PAID,
-                createdTime
+                LoanStatus.NOT_PAID
         );
 
         LoanEntity resLoanEntity = loanRepository.save(loanEntity);
 
-        ApplyLoanResponse applyLoanResponse = new ApplyLoanResponse(
+        return new ApplyLoanResponse(
                 resLoanEntity.getId(),
                 resLoanEntity.getMemberId(),
                 resLoanEntity.getTotal(),
@@ -65,30 +61,19 @@ public class LoanUsecase {
                 resLoanEntity.getStatus(),
                 resLoanEntity.getCreatedTime()
         );
-
-        return applyLoanResponse;
     }
 
     @Transactional
     public PayInstallmentResponse PayInstallment(PayInstallmentRequest req, Long loanId) {
-        LocalDateTime createdTime = LocalDateTime.now();
-
         LoanEntity loanEntity = loanRepository.findById(loanId).
                 orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "loan is not found"
         ));
 
-        if (loanEntity.getStatus() == LoanStatus.PAID) {
-            throw new ResponseStatusException(
-                    HttpStatus.OK, "loan is paid"
-            );
-        }
-
         TransactionEntity trxEntity = new TransactionEntity(
                 loanEntity.getMemberId(),
                 TransactionType.INSTALLMENT,
-                req.getTotal(),
-                createdTime
+                req.getTotal()
         );
         transactionRepository.save(trxEntity);
 
@@ -107,8 +92,7 @@ public class LoanUsecase {
         InstallmentEntity installmentEntity = new InstallmentEntity(
                 loanId,
                 req.getTotal(),
-                loanRemainder,
-                createdTime
+                loanRemainder
         );
 
         installmentRepository.save(installmentEntity);
@@ -117,16 +101,14 @@ public class LoanUsecase {
             loanEntity.setStatus(LoanStatus.PAID);
         }
 
-        PayInstallmentResponse payInstallmentResponse = new PayInstallmentResponse(
-            installmentEntity.getId(),
+        return new PayInstallmentResponse(
+                installmentEntity.getId(),
                 loanEntity.getMemberId(),
                 installmentEntity.getTotal(),
                 installmentEntity.getCreatedTime(),
                 installmentEntity.getLoanRemainder(),
                 loanEntity.getStatus()
         );
-
-        return payInstallmentResponse;
     }
 
 }

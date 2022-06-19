@@ -1,23 +1,15 @@
 package com.app.Koperasi.request;
 
+import java.time.LocalDate;
+
 public class PayInstallmentRequest {
-    private Long memberId;
     private Integer total;
 
-    public PayInstallmentRequest(Long memberId, Integer total) {
-        this.memberId = memberId;
+    private LocalDate installmentDate;
+
+    public PayInstallmentRequest(Integer total, LocalDate installmentDate) {
         this.total = total;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public PayInstallmentRequest() {
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+        this.installmentDate = installmentDate;
     }
 
     public Integer getTotal() {
@@ -26,5 +18,13 @@ public class PayInstallmentRequest {
 
     public void setTotal(Integer total) {
         this.total = total;
+    }
+
+    public LocalDate getInstallmentDate() {
+        return installmentDate;
+    }
+
+    public void setInstallmentDate(LocalDate installmentDate) {
+        this.installmentDate = installmentDate;
     }
 }
