@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,8 +33,24 @@ public class LoanUsecase {
         this.installmentRepository = installmentRepository;
     }
 
+    public void validateLoan(ApplyLoanRequest req) {
+        LocalDate currentDate = LocalDate.now();
+        if (req.getLoanDate().isAfter(currentDate)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "loan date should not be after today"
+            );
+        }
+
+        if (req.getTotal() < 0 ) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "invalid loan total"
+            );
+        }
+    }
+
     @Transactional
     public ApplyLoanResponse applyLoan(ApplyLoanRequest req) {
+        validateLoan(req);
         LocalDateTime createdTime = LocalDateTime.now();
 
         TransactionEntity trxEntity = new TransactionEntity(
@@ -67,8 +84,41 @@ public class LoanUsecase {
                 createdTime
         );
     }
+
+    public void validateInstallment(PayInstallmentRequest req, LoanEntity loan) {
+        if (loan.getStatus() == LoanStatus.PAID) {
+            throw new ResponseStatusException(
+                    HttpStatus.OK, "loan is already paid"
+            );
+        }
+
+        if (req.getInstallmentDate().isBefore(loan.getLoanDate())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "installment should be after loan date"
+            );
+        }
+
+        if (req.getInstallmentDate().isAfter(loan.getTenor())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "installment date should not be after tenor"
+            );
+        }
+
+        if (req.getTotal() < 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "invalid installment total"
+            );
+        }
+
+        if (req.getTotal() > loan.getTotal()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "total installment should less or equal with loan"
+            );
+        }
+    }
+
     @Transactional
-    public PayInstallmentResponse PayInstallment(PayInstallmentRequest req, Long loanId) {
+    public PayInstallmentResponse payInstallment(PayInstallmentRequest req, Long loanId) {
         LocalDateTime createdTime = LocalDateTime.now();
 
         LoanEntity loanEntity = loanRepository.findById(loanId).
@@ -76,29 +126,7 @@ public class LoanUsecase {
                 HttpStatus.NOT_FOUND, "loan is not found"
         ));
 
-        if (loanEntity.getStatus() == LoanStatus.PAID) {
-            throw new ResponseStatusException(
-                    HttpStatus.OK, "loan is already paid"
-            );
-        }
-
-        if (req.getInstallmentDate().isBefore(loanEntity.getLoanDate())) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "installment should be after loan date"
-            );
-        }
-
-        if (req.getInstallmentDate().isAfter(loanEntity.getTenor())) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "installment should not be after tenor"
-            );
-        }
-
-        if (req.getTotal() > loanEntity.getTotal()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "total installment should less than equal with loan"
-            );
-        }
+        validateInstallment(req, loanEntity);
 
         TransactionEntity trxEntity = new TransactionEntity(
                 loanEntity.getMemberId(),
