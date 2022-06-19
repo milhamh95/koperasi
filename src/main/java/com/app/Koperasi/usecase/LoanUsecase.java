@@ -8,10 +8,13 @@ import com.app.Koperasi.request.ApplyLoanRequest;
 import com.app.Koperasi.request.PayInstallmentRequest;
 import com.app.Koperasi.response.ApplyLoanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class LoanUsecase {
@@ -67,42 +70,45 @@ public class LoanUsecase {
 
     @Transactional
     public void PayInstallment(PayInstallmentRequest req, Long loanId) {
-//        LocalDateTime createdTime = LocalDateTime.now();
-//
-//        Optional<InstallmentEntity> latestUserInstallment = installmentRepository.findLatestInstallment(loanId);
-//
-//        Optional<LoanEntity> loanEntity = loanRepository.findById(loanId);
-////        if (loanEntity.get().getStatus() == LoanStatus.PAID) {
-////            throw new Exception("loan is already paid");
-////        }
-//
-//        TransactionEntity trxEntity = new TransactionEntity(
-//                req.getMemberId(),
-//                TransactionType.INSTALLMENT,
-//                req.getTotal(),
-//                createdTime
-//        );
-//
-//        transactionRepository.save(trxEntity);
-//
-//        Integer currentLoanRemainder = loanEntity.get().getTotal();
-//        if (latestUserInstallment.get().getLoan_remainder() != loanEntity.get().getTotal()) {
-//            currentLoanRemainder = latestUserInstallment.get().getLoan_remainder();
-//        }
-//
-//        Integer loanRemainder = currentLoanRemainder - req.getTotal();
-//        if (loanRemainder < 0) {
-//            loanRemainder = 0;
-//        }
-//        InstallmentEntity installmentEntity = new InstallmentEntity(
-//                loanId,
-//                req.getTotal(),
-//                loanRemainder,
-//                createdTime
-//        );
-//
-////        InstallmentEntity resInstallmentEntity = installmentRepository.save(installmentEntity);
-//        installmentRepository.save(installmentEntity);
+        LocalDateTime createdTime = LocalDateTime.now();
+
+        LoanEntity loanEntity = loanRepository.findById(loanId).
+                orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "loan is not found"
+        ));
+
+        TransactionEntity trxEntity = new TransactionEntity(
+                loanEntity.getMemberId(),
+                TransactionType.INSTALLMENT,
+                req.getTotal(),
+                createdTime
+        );
+        transactionRepository.save(trxEntity);
+
+        Optional<InstallmentEntity> latestUserInstallment = installmentRepository.findTopByLoanId(loanId);
+
+        Integer currentLoanRemainder = loanEntity.getTotal();
+        if (latestUserInstallment.isPresent() &&
+                latestUserInstallment.get().getLoanRemainder() < loanEntity.getTotal()){
+            currentLoanRemainder = latestUserInstallment.get().getLoanRemainder();
+        }
+
+        Integer loanRemainder = currentLoanRemainder - req.getTotal();
+        if (loanRemainder < 0) {
+            loanRemainder = 0;
+        }
+        InstallmentEntity installmentEntity = new InstallmentEntity(
+                loanId,
+                req.getTotal(),
+                loanRemainder,
+                createdTime
+        );
+
+        installmentRepository.save(installmentEntity);
+
+        if (loanRemainder == 0) {
+            loanEntity.setStatus(LoanStatus.PAID);
+        }
     }
 
 }
