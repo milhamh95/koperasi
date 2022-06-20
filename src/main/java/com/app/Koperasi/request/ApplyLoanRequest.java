@@ -49,4 +49,7 @@ public class ApplyLoanRequest {
         this.loanDate = loanDate;
         this.tenor = tenor;
     }
+
+    public ApplyLoanRequest() {
+    }
 }

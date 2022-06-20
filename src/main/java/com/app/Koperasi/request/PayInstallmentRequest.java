@@ -12,6 +12,9 @@ public class PayInstallmentRequest {
         this.installmentDate = installmentDate;
     }
 
+    public PayInstallmentRequest() {
+    }
+
     public Integer getTotal() {
         return total;
     }

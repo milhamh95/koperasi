@@ -1,7 +1,5 @@
 package com.app.Koperasi.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,7 +13,6 @@ public class MemberEntity {
     private String name;
     private String address;
 
-    @CreationTimestamp
     @Column(name= "created_time")
     private LocalDateTime createdTime;
 

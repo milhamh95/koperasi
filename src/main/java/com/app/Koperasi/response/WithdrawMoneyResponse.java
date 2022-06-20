@@ -21,6 +21,9 @@ public class WithdrawMoneyResponse {
         this.createdTime = createdTime;
     }
 
+    public WithdrawMoneyResponse() {
+    }
+
     public Long getId() {
         return id;
     }

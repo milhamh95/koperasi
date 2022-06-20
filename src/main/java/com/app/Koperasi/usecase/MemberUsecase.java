@@ -3,7 +3,8 @@ package com.app.Koperasi.usecase;
 import com.app.Koperasi.domain.Member;
 import com.app.Koperasi.entity.MemberEntity;
 import com.app.Koperasi.repository.MemberRepository;
-import org.modelmapper.ModelMapper;
+import com.app.Koperasi.request.AddMemberRequest;
+import com.app.Koperasi.response.AddMemberResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,32 +24,38 @@ public class MemberUsecase {
         this.memberRepository = memberRepository;
     }
 
-    public Member addMember(Member member) {
+    public AddMemberResponse addMember(AddMemberRequest member) {
         LocalDateTime createdTime = LocalDateTime.now();
         MemberEntity memberEntity = new MemberEntity(
                 member.getName(),
                 member.getAddress(),
                 createdTime
         );
-        memberRepository.save(memberEntity);
-        return member;
+        MemberEntity resMemberEntity = memberRepository.save(memberEntity);
+        return new AddMemberResponse(
+                resMemberEntity.getId(),
+                resMemberEntity.getName(),
+                resMemberEntity.getAddress(),
+                createdTime
+        );
     }
 
-    public List<Member> getMembers() {
+    public List<AddMemberResponse> getMembers() {
        List <MemberEntity> memberEntities = memberRepository.findAll();
 
-       List <Member> members = new ArrayList<>();
-
-       ModelMapper modelMapper = new ModelMapper();
+       List <AddMemberResponse> members = new ArrayList<>();
 
        for (int i = 0; i < memberEntities.size(); i++) {
-            Member member = modelMapper.map(memberEntities.get(i), Member.class);
+            AddMemberResponse member = new AddMemberResponse(
+                    memberEntities.get(i).getId(),
+                    memberEntities.get(i).getName(),
+                    memberEntities.get(i).getAddress(),
+                    memberEntities.get(i).getCreatedTime()
+            );
             members.add(member);
         }
 
        return members;
-
-
     }
 
     public Member getMember(Long memberId) {

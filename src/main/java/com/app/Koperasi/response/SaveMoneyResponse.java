@@ -21,6 +21,9 @@ public class SaveMoneyResponse {
         this.createdTime = createdTime;
     }
 
+    public SaveMoneyResponse() {
+    }
+
     public Long getId() {
         return id;
     }
