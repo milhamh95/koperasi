@@ -19,19 +19,7 @@ public class MemberEntity {
     public MemberEntity() {
     }
 
-    public MemberEntity(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
     public MemberEntity(String name, String address, LocalDateTime createdTime) {
-        this.name = name;
-        this.address = address;
-        this.createdTime = createdTime;
-    }
-
-    public MemberEntity(Long id, String name, String address, LocalDateTime createdTime) {
-        this.id = id;
         this.name = name;
         this.address = address;
         this.createdTime = createdTime;

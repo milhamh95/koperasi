@@ -16,21 +16,23 @@ public class InstallmentEntity {
     @Column(name = "loan_id")
     private Long loanId;
 
+    @Column(name = "transaction_id")
+    private Long transactionId;
+
     private Integer total;
+
+    @Column(name = "loan_remainder")
+    private Integer loanRemainder;
+
+    @Column(name = "created_time")
+    private LocalDateTime createdTime;
 
     public InstallmentEntity() {
     }
 
-    public InstallmentEntity(Long loanId, Integer total, Integer loanRemainder, LocalDateTime createdTime) {
+    public InstallmentEntity(Long loanId, Long transactionId, Integer total, Integer loanRemainder, LocalDateTime createdTime) {
         this.loanId = loanId;
-        this.total = total;
-        this.loanRemainder = loanRemainder;
-        this.createdTime = createdTime;
-    }
-
-    public InstallmentEntity(Long id, Long loanId, Integer total, Integer loanRemainder, LocalDateTime createdTime) {
-        this.id = id;
-        this.loanId = loanId;
+        this.transactionId = transactionId;
         this.total = total;
         this.loanRemainder = loanRemainder;
         this.createdTime = createdTime;
@@ -50,6 +52,14 @@ public class InstallmentEntity {
 
     public void setLoanId(Long loanId) {
         this.loanId = loanId;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Integer getTotal() {
@@ -75,10 +85,4 @@ public class InstallmentEntity {
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
-
-    @Column(name = "loan_remainder")
-    private Integer loanRemainder;
-
-    @Column(name = "created_time")
-    private LocalDateTime createdTime;
 }

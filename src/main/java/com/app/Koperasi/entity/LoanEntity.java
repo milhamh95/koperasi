@@ -43,17 +43,6 @@ public class LoanEntity {
     public LoanEntity() {
     }
 
-    public LoanEntity(Long id, Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
-        this.id = id;
-        this.transactionId = transactionId;
-        this.memberId = memberId;
-        this.total = total;
-        this.loanDate = loanDate;
-        this.tenor = tenor;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
-
     public LoanEntity(Long transactionId, Long memberId, Integer total, LocalDate loanDate, LocalDate tenor, LoanStatus status, LocalDateTime createdTime) {
         this.transactionId = transactionId;
         this.memberId = memberId;

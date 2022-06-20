@@ -1,8 +1,8 @@
 package com.app.Koperasi.controller;
 
-import com.app.Koperasi.domain.Member;
 import com.app.Koperasi.request.AddMemberRequest;
 import com.app.Koperasi.response.AddMemberResponse;
+import com.app.Koperasi.response.MemberDetailResponse;
 import com.app.Koperasi.usecase.MemberUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     @GetMapping(path = "{memberId}")
-    public Member getMember(@PathVariable("memberId") Long memberId) {
+    public MemberDetailResponse getMember(@PathVariable("memberId") Long memberId) {
         return memberUsecase.getMember(memberId);
     }
 }

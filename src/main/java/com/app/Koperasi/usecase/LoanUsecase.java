@@ -146,7 +146,8 @@ public class LoanUsecase {
                 req.getTotal(),
                 createdTime
         );
-        transactionRepository.save(trxEntity);
+
+        TransactionEntity resTrx = transactionRepository.save(trxEntity);
 
         Integer currentLoanRemainder = loanEntity.getTotal();
 
@@ -167,17 +168,13 @@ public class LoanUsecase {
         Integer loanRemainder = currentLoanRemainder - req.getTotal();
         InstallmentEntity installmentEntity = new InstallmentEntity(
                 loanId,
+                resTrx.getId(),
                 req.getTotal(),
                 loanRemainder,
                 createdTime
         );
 
-        installmentRepository.save(new InstallmentEntity(
-                loanId,
-                req.getTotal(),
-                loanRemainder,
-                createdTime
-        ));
+        installmentRepository.save(installmentEntity);
 
         if (loanRemainder == 0) {
             loanEntity.setStatus(LoanStatus.PAID);
@@ -192,5 +189,4 @@ public class LoanUsecase {
                 loanEntity.getStatus()
         );
     }
-
 }

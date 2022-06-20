@@ -1,10 +1,13 @@
 package com.app.Koperasi.usecase;
 
-import com.app.Koperasi.domain.Member;
 import com.app.Koperasi.entity.MemberEntity;
+import com.app.Koperasi.entity.MemberTransactionDetailEntity;
 import com.app.Koperasi.repository.MemberRepository;
+import com.app.Koperasi.repository.MemberTransactionDetailRepository;
 import com.app.Koperasi.request.AddMemberRequest;
 import com.app.Koperasi.response.AddMemberResponse;
+import com.app.Koperasi.response.MemberDetailResponse;
+import com.app.Koperasi.response.MemberTransactionDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,9 +22,12 @@ public class MemberUsecase {
 
     private final MemberRepository memberRepository;
 
+    private final MemberTransactionDetailRepository memberTransactionDetailRepository;
+
     @Autowired
-    public MemberUsecase(MemberRepository memberRepository) {
+    public MemberUsecase(MemberRepository memberRepository, MemberTransactionDetailRepository memberTransactionDetailRepository ) {
         this.memberRepository = memberRepository;
+        this.memberTransactionDetailRepository = memberTransactionDetailRepository;
     }
 
     public AddMemberResponse addMember(AddMemberRequest member) {
@@ -45,12 +51,12 @@ public class MemberUsecase {
 
        List <AddMemberResponse> members = new ArrayList<>();
 
-       for (int i = 0; i < memberEntities.size(); i++) {
+       for (MemberEntity memberData: memberEntities) {
             AddMemberResponse member = new AddMemberResponse(
-                    memberEntities.get(i).getId(),
-                    memberEntities.get(i).getName(),
-                    memberEntities.get(i).getAddress(),
-                    memberEntities.get(i).getCreatedTime()
+                    memberData.getId(),
+                    memberData.getName(),
+                    memberData.getAddress(),
+                    memberData.getCreatedTime()
             );
             members.add(member);
         }
@@ -58,15 +64,37 @@ public class MemberUsecase {
        return members;
     }
 
-    public Member getMember(Long memberId) {
+    public MemberDetailResponse getMember(Long memberId) {
         MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "member is not found")
         );
 
-        return new Member(
+        List<MemberTransactionDetailEntity> memberTrxs = memberTransactionDetailRepository.findMemberTransactionDetail(memberId);
+
+        List<MemberTransactionDetailResponse> trxs = new ArrayList<>();
+
+        for (MemberTransactionDetailEntity trxDetail : memberTrxs) {
+            MemberTransactionDetailResponse trx = new MemberTransactionDetailResponse(
+                    trxDetail.getId(),
+                    trxDetail.getType(),
+                    trxDetail.getTotal(),
+                    trxDetail.getCreatedTime()
+            );
+
+            trx.setRefId(
+                    trxDetail.getLoanId(),
+                    trxDetail.getInstallmentId(),
+                    trxDetail.getSavingId());
+
+            trxs.add(trx);
+        }
+
+        return new MemberDetailResponse(
                 memberEntity.getId(),
                 memberEntity.getName(),
                 memberEntity.getAddress(),
-                memberEntity.getCreatedTime());
+                memberEntity.getCreatedTime(),
+                trxs
+        );
     }
 }
