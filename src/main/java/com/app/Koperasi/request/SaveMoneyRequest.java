@@ -1,7 +1,15 @@
 package com.app.Koperasi.request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class SaveMoneyRequest {
+    @NotNull(message = "memberId should not be empty")
+    @Min(value = 1, message = "memberId is not valid")
     private Long memberId;
+
+    @NotNull(message = "total should not be empty")
+    @Min(value = 50000, message = "minimum money to save is 50000")
     private Integer total;
 
     public SaveMoneyRequest(Long memberId, Integer total) {

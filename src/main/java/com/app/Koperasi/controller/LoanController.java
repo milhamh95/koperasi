@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class LoanController {
     private final LoanUsecase loanUsecase;
@@ -21,7 +23,7 @@ public class LoanController {
     }
 
     @PostMapping(path = "/loans")
-    public ApplyLoanResponse applyLoan(@RequestBody ApplyLoanRequest req) {
+    public ApplyLoanResponse applyLoan(@Valid @RequestBody ApplyLoanRequest req) {
         ApplyLoanResponse applyLoanResponse = loanUsecase.applyLoan(req);
         return applyLoanResponse;
     }
@@ -29,7 +31,7 @@ public class LoanController {
     @PostMapping(path = "/loans/{loanId}/installment")
     public PayInstallmentResponse payInstallment(
             @PathVariable("loanId") Long loanId,
-            @RequestBody PayInstallmentRequest req) {
+            @Valid @RequestBody PayInstallmentRequest req) {
         PayInstallmentResponse resp = loanUsecase.payInstallment(req, loanId);
         return resp;
     }

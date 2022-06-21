@@ -1,14 +1,23 @@
 package com.app.Koperasi.request;
 
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class ApplyLoanRequest {
+    @NotNull(message = "memberId should not be empty")
+    @Min(value = 1, message = "memberId is not valid")
     private Long memberId;
 
+    @NotNull(message = "total should not be empty")
+    @Min(value = 50000, message = "minimum apply loan is 50000")
     private Integer total;
 
+    @NotNull(message = "loanDate should not be empty")
     private LocalDate loanDate;
 
+    @NotNull(message = "tenor should not be empty")
     private LocalDate tenor;
 
     public Long getMemberId() {

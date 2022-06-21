@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class SavingController {
 
@@ -22,14 +24,14 @@ public class SavingController {
     }
 
     @PostMapping(path = "/saving")
-    public SaveMoneyResponse saveMoney(@RequestBody SaveMoneyRequest req) {
+    public SaveMoneyResponse saveMoney(@Valid @RequestBody SaveMoneyRequest req) {
         return savingUsecase.saveMoney(req);
     }
 
     @PostMapping(path = "/saving/{memberId}/withdraw")
     public WithdrawMoneyResponse withdrawMoney(
             @PathVariable("memberId") Long memberId,
-            @RequestBody WithdrawMoneyRequest req) {
+            @Valid @RequestBody WithdrawMoneyRequest req) {
         return savingUsecase.withdrawMoney(req, memberId);
     }
 }

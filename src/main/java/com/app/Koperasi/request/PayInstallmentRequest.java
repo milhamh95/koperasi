@@ -1,10 +1,16 @@
 package com.app.Koperasi.request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class PayInstallmentRequest {
+
+    @NotNull(message = "total should not be empty")
+    @Min(value = 10000, message = "minimum installment is 10000")
     private Integer total;
 
+    @NotNull(message = "installmentDate should not be empty")
     private LocalDate installmentDate;
 
     public PayInstallmentRequest(Integer total, LocalDate installmentDate) {
