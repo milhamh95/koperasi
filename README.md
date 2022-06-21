@@ -7,3 +7,6 @@ koperasi is a loan, save, and withdraw money system. The features are:
 - Able to loan, pay installment, save, and withdraw money
 - Fetch transaction histories
 - Get a member transaction detail
+
+# Prerequisites
+- 
