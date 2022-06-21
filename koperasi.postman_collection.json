@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "f8db34d8-6024-4158-8bfb-a578e15078a9",
+		"name": "koperasi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "members",
+			"item": [
+				{
+					"name": "Add Member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John\",\n    \"address\": \"Jakarta\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/members",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/members",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/members/:memberId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "loan",
+			"item": [
+				{
+					"name": "Apply Loan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"memberId\": 1,\n    \"total\": 1000000,\n    \"loanDate\": \"2022-06-21\",\n    \"tenor\": \"2022-06-25\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/loans",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"loans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay Installment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 200000,\n    \"installmentDate\": \"2022-06-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/loans/:loanId/installment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"loans",
+								":loanId",
+								"installment"
+							],
+							"variable": [
+								{
+									"key": "loanId",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "saving",
+			"item": [
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"memberId\": 1,\n    \"total\": 100000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/saving",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saving"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 200000\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/saving/:memberId/withdraw",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saving",
+								":memberId",
+								"withdraw"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "Fetch Transactions",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
