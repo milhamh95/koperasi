@@ -29,17 +29,7 @@ public class SavingUsecase {
         this.savingRepository = savingRepository;
     }
 
-    public void validateSaveMoney(SaveMoneyRequest req) {
-        if (req.getTotal() < 10000) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "minimum amount of money to save is 10000"
-            );
-        }
-    }
-
     public SaveMoneyResponse saveMoney(SaveMoneyRequest req) {
-        validateSaveMoney(req);
-
         LocalDateTime createdTime = LocalDateTime.now();
 
         TransactionEntity trxEntity = new TransactionEntity(

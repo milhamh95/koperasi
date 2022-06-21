@@ -39,55 +39,27 @@ public class MemberTransactionDetailEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public TransactionType getType() {
         return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
     }
 
     public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
-
     public LocalDateTime getCreatedTime() {
         return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
     }
 
     public Long getLoanId() {
         return loanId;
     }
 
-    public void setLoanId(Long loanId) {
-        this.loanId = loanId;
-    }
-
     public Long getInstallmentId() {
         return installmentId;
     }
 
-    public void setInstallmentId(Long installmentId) {
-        this.installmentId = installmentId;
-    }
-
     public Long getSavingId() {
         return savingId;
-    }
-
-    public void setSavingId(Long savingId) {
-        this.savingId = savingId;
     }
 }

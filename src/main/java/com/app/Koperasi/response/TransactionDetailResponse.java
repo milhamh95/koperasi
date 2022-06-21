@@ -55,7 +55,23 @@ public class TransactionDetailResponse {
         return refId;
     }
 
-    public void setRefId(Long refId) {
-        this.refId = refId;
+    public void setRefId(Long loanId, Long installmentId, Long savingId) {
+        switch (this.type) {
+            case LOAN:
+                this.refId = loanId;
+                return;
+            case INSTALLMENT:
+                this.refId = installmentId;
+                return;
+            case SAVE:
+                this.refId = savingId;
+                return;
+            case WITHDRAW:
+                this.refId = savingId;
+        }
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
     }
 }
